@@ -1,15 +1,17 @@
 import React from 'react'
 import {useState,useEffect} from 'react'
 import JobListing from './JobListing.components'
+import Spinner from './Spinner.component';
 
 function JobsLisitng({isHome}) {
   const[jobs,setJobs]=useState([]);
-  const [loding,setLoading] = useState(true);
+  const [loading,setLoading] = useState(true);
 
   useEffect(()=>{
     const fetchJobs = async()=>{
+      const apiUrl = isHome ? '/api/jobs?_limit=3' : '/api/jobs'
       try {
-        const res = await fetch('http://localhost:8000/jobs')  //fetching data from backend 
+        const res = await fetch(apiUrl)  //fetching data from backend 
         const data = await res.json();
         setJobs(data);
       } catch (error) {
@@ -27,16 +29,15 @@ function JobsLisitng({isHome}) {
         <h2 class="text-3xl font-bold text-indigo-500 mb-6 text-center">
           {isHome ? 'Recent Jobs':'Browse Jobs'}
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
           {/*<!-- Job Listing  --> by map function */ }
-          {loding? (<h2>Loading.....</h2>):(
-            <>
+          {loading? (<Spinner/>):(
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             {jobs.map((job)=>(
             <JobListing key={job.id} job={job}></JobListing>
           ))}
-            </>
+            </div>
           )}
-        </div>
       </div>
     </section>
   )
