@@ -9,12 +9,14 @@ import
 import HomePage from './Pages/Home.page';
 import NavbarLayout from './layouts/Navbar.layout'; // layout is one elemtn which have to show in all pages 
 import JobsPage from './Pages/Jobs.page';
+import NotfoundPage from "./Pages/Notfound.page"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
   <Route path='/' element={<NavbarLayout/>}>
   <Route index element={<HomePage/>} />
   <Route path='/jobs' element={<JobsPage/>} />
+  <Route path='*' element={<NotfoundPage/>}/>
   </Route>
 )
 );
